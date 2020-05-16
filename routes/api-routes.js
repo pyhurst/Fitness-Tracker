@@ -12,7 +12,7 @@ router.post("/api/workouts", ({ body }, res) => {
 });
 
 router.get("/api/workouts", (req, res) => {
-  db.Workout.find({})
+  db.Workout.findOne({})
     .sort({ date: -1 })
     .then(dbWorkouts => {
       res.json(dbWorkouts);
@@ -24,10 +24,10 @@ router.get("/api/workouts", (req, res) => {
 
 router.get("/api/workouts/range", (req, res) => {
   db.Workout.find(
+    // Thought it wanted workouts with a distance but looks like they just want all the workouts?
     {
-      distance: {$in: "workouts", $not: null} 
+    //   distance: {$in: "workouts", $not: null} 
     })
-    // .sort({distance: -1})
     .then(dbWorkouts => {
       res.json(dbWorkouts);
     })
@@ -37,7 +37,7 @@ router.get("/api/workouts/range", (req, res) => {
 });
 
 router.put("/api/workouts/:id", (req, res) => {
-  db.Workout.updateOne(
+  db.Workout.findByIdAndUpdate(
     {
       _id: req.params.id
     },
