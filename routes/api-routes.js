@@ -42,13 +42,8 @@ router.put("/api/workouts/:id", (req, res) => {
       _id: req.params.id
     },
     {
-      workouts:
-      {
-        $in: req.body
-      }
-    },
-    {
-      $set:
+      $in: "workouts",
+      $push:
       {
         name: req.body.name,
         type: req.body.type,
@@ -59,8 +54,8 @@ router.put("/api/workouts/:id", (req, res) => {
         distance: req.body.distance
       }
     })
-    .then(dbWorkouts => {
-      res.json(dbWorkouts);
+    .then(dbWorkout => {
+      res.json(dbWorkout);
     })
     .catch(err => {
       res.status(400).json(err);
